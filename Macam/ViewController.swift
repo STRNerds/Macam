@@ -7,6 +7,7 @@
 
 import Cocoa
 import AVFoundation
+import SwiftUI
 
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
@@ -24,6 +25,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
 
         cameraView = NSView()
         cameraView.wantsLayer = true
+        cameraView.layer?.cornerRadius = 10
+        cameraView.layer?.masksToBounds = true
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(cameraView)
         
@@ -31,22 +34,28 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(imageView)
         
-        button = NSButton(title: "Capture Photo", target: self, action: #selector(capturePhoto(_:)))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(button)
-        
-        cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        cameraView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        cameraView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         cameraView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         cameraView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20).isActive = true
+        let captureButton = CaptureButton {
+            self.capturePhoto()
+        }
+        
+        let buttonController = NSHostingController(rootView: captureButton)
+        buttonController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(buttonController.view)
+        
+        NSLayoutConstraint.activate([
+            buttonController.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+        ])
         
         setupCamera()
     }
@@ -57,7 +66,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         }
     }
 
-    @objc func capturePhoto(_ sender: NSButton) {
+    @objc func capturePhoto() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
                 let settings = AVCapturePhotoSettings()
@@ -97,36 +106,39 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let error = error {
-          print("Error capturing photo: \(error)")
-          return
-        }
-
-        guard let photoData = photo.fileDataRepresentation() else {
-          print("Failed to get photo data")
-          return
-        }
-
-        // Get a filename for the image (replace "image.jpg" with your logic)
-        let filename = "image.jpg"
-
-        // Get the desired destination folder path (replace "your/folder/path" with your actual path)
-        let destinationURL = FileManager.default.homeDirectoryForCurrentUser
-
-        // Create a complete file path within the destination folder
-        let filePath = destinationURL.appendingPathComponent(filename)
-
-        do {
-          try photoData.write(to: filePath)
-          print("Image saved successfully!")
-        } catch {
-          print("Error saving photo data: \(error)")
-        }
         if let imageData = photo.fileDataRepresentation() {
             if let image = NSImage(data: imageData) {
                 imageView.image = image
                 captureSession.stopRunning()
+                
+                let savePanel = NSSavePanel()
+                savePanel.allowedContentTypes = [UTType.png]
+                savePanel.nameFieldStringValue = "capturedPhoto.png"
+                savePanel.begin{ (result) in
+                    if result == .OK {
+                        if let url = savePanel.url {
+                            if let pngData = image.tiffRepresentation {
+                                let bitmap = NSBitmapImageRep(data: pngData)
+                                let pngImage = bitmap?.representation(using: .png, properties: [:])
+                                do {
+                                    try pngImage?.write(to: url)
+                                    print("Image saved to \(url.path)")
+                                } catch {
+                                    print("Failed to save image: \(error)")
+                                }
+                            }
+                        }
+                    }
+                }
             }
+        }
+    }
+    
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
+        if (captureSession.isRunning) {
+            captureSession.stopRunning()
         }
     }
 }

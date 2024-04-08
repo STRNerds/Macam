@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05F3CECB2BC4662A0064B6B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F3CECA2BC4662A0064B6B5 /* ViewController.swift */; };
+		816505422BC4821000F157C6 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816505412BC4821000F157C6 /* CaptureButton.swift */; };
 		819461C72BC3152A00371458 /* MacamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819461C62BC3152A00371458 /* MacamApp.swift */; };
 		819461C92BC3152A00371458 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819461C82BC3152A00371458 /* ContentView.swift */; };
 		819461CB2BC3152B00371458 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 819461CA2BC3152B00371458 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		05F3CECA2BC4662A0064B6B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		816505412BC4821000F157C6 /* CaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = "<group>"; };
 		819461C32BC3152A00371458 /* Macam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		819461C62BC3152A00371458 /* MacamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacamApp.swift; sourceTree = "<group>"; };
 		819461C82BC3152A00371458 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				819461CC2BC3152B00371458 /* Preview Content */,
 				81C887672BC3313500A567C3 /* CameraView.swift */,
 				05F3CECA2BC4662A0064B6B5 /* ViewController.swift */,
+				816505412BC4821000F157C6 /* CaptureButton.swift */,
 			);
 			path = Macam;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				819461C92BC3152A00371458 /* ContentView.swift in Sources */,
+				816505422BC4821000F157C6 /* CaptureButton.swift in Sources */,
 				819461C72BC3152A00371458 /* MacamApp.swift in Sources */,
 				05F3CECB2BC4662A0064B6B5 /* ViewController.swift in Sources */,
 				81C887682BC3313500A567C3 /* CameraView.swift in Sources */,
@@ -282,9 +286,9 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
-				DEVELOPMENT_TEAM = 577U8Q4XF3;
+				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -311,9 +315,9 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
-				DEVELOPMENT_TEAM = 577U8Q4XF3;
+				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
