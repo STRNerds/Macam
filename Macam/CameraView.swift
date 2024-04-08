@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-struct CameraView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct CameraView: NSViewControllerRepresentable {
+    typealias NSViewControllerType = ViewController
+    
+    func makeNSViewController(context: NSViewControllerRepresentableContext<CameraView>) -> ViewController {
+        return ViewController()
+    }
+    
+    func updateNSViewController(_ nsViewController: ViewController, context: NSViewControllerRepresentableContext<CameraView>) {
+        
     }
 }
 
