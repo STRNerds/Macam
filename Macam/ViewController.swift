@@ -97,6 +97,31 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     }
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        if let error = error {
+          print("Error capturing photo: \(error)")
+          return
+        }
+
+        guard let photoData = photo.fileDataRepresentation() else {
+          print("Failed to get photo data")
+          return
+        }
+
+        // Get a filename for the image (replace "image.jpg" with your logic)
+        let filename = "image.jpg"
+
+        // Get the desired destination folder path (replace "your/folder/path" with your actual path)
+        let destinationURL = FileManager.default.homeDirectoryForCurrentUser
+
+        // Create a complete file path within the destination folder
+        let filePath = destinationURL.appendingPathComponent(filename)
+
+        do {
+          try photoData.write(to: filePath)
+          print("Image saved successfully!")
+        } catch {
+          print("Error saving photo data: \(error)")
+        }
         if let imageData = photo.fileDataRepresentation() {
             if let image = NSImage(data: imageData) {
                 imageView.image = image
