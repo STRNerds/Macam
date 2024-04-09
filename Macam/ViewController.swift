@@ -34,10 +34,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(imageView)
         
-        cameraView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        cameraView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
-        cameraView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        cameraView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
         imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
@@ -96,7 +96,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer.videoGravity = .resizeAspectFill
             videoPreviewLayer.connection?.videoRotationAngle = 0
-            videoPreviewLayer.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+            videoPreviewLayer.frame = cameraView.bounds
             cameraView.layer?.addSublayer(videoPreviewLayer)
             
             captureSession.startRunning()
@@ -140,5 +140,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         if (captureSession.isRunning) {
             captureSession.stopRunning()
         }
+    }
+    
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        videoPreviewLayer.frame = cameraView.bounds
     }
 }
