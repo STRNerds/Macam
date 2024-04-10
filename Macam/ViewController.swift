@@ -12,7 +12,6 @@ import SwiftUI
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
     var imageView: NSImageView!
-    var button: NSButton!
     var cameraView: NSView!
     
     var captureSession: AVCaptureSession!
@@ -53,8 +52,8 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         self.view.addSubview(buttonController.view)
         
         NSLayoutConstraint.activate([
-            buttonController.view.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+            buttonController.view.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            buttonController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         setupCamera()
