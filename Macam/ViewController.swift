@@ -108,7 +108,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         if let imageData = photo.fileDataRepresentation() {
             if let image = NSImage(data: imageData) {
                 imageView.image = image
-                captureSession.stopRunning()
                 
                 let savePanel = NSSavePanel()
                 savePanel.allowedContentTypes = [UTType.png]
