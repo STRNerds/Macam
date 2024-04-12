@@ -8,6 +8,7 @@
 import Cocoa
 import AVFoundation
 import SwiftUI
+import AppKit
 
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
@@ -108,6 +109,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         if let imageData = photo.fileDataRepresentation() {
             if let image = NSImage(data: imageData) {
                 imageView.image = image
+                imageView.isHidden = true
                 
                 let savePanel = NSSavePanel()
                 savePanel.allowedContentTypes = [UTType.png]
