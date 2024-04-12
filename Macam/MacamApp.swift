@@ -13,5 +13,9 @@ struct MacamApp: App {
         WindowGroup {
             ContentView()
         }
+        Settings {
+            SettingsView()
+        }
+        .windowResizability(.contentMinSize)
     }
 }

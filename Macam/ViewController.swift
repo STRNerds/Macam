@@ -110,25 +110,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                 imageView.image = image
                 imageView.isHidden = true
                 
-                let savePanel = NSSavePanel()
-                savePanel.allowedContentTypes = [UTType.png]
-                savePanel.nameFieldStringValue = "capturedPhoto.png"
-                savePanel.begin{ (result) in
-                    if result == .OK {
-                        if let url = savePanel.url {
-                            if let pngData = image.tiffRepresentation {
-                                let bitmap = NSBitmapImageRep(data: pngData)
-                                let pngImage = bitmap?.representation(using: .png, properties: [:])
-                                do {
-                                    try pngImage?.write(to: url)
-                                    print("Image saved to \(url.path)")
-                                } catch {
-                                    print("Failed to save image: \(error)")
-                                }
-                            }
-                        }
+                let imageType = SettingsView().imageType
+                let saveURL = SettingsView().selectedFolder!.appendingPathComponent("capturedPhoto" + rawValueToString(imageType.rawValue))
+                
+                if let imageData = image.tiffRepresentation {
+                    let bitmap = NSBitmapImageRep(data: imageData)
+                    let image = bitmap?.representation(using: imageType, properties: [:])
+                    do {
+                        try image?.write(to: saveURL)
+                        print("Image saved to \(saveURL.path)")
+                    } catch {
+                        print("Failed to save image: \(error)")
                     }
-                    self.imageView.isHidden = true
                 }
             }
         }
@@ -145,5 +138,18 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     override func viewDidLayout() {
         super.viewDidLayout()
         videoPreviewLayer.frame = cameraView.bounds
+    }
+    
+    func rawValueToString(_ value: UInt) -> String {
+        switch value {
+        case 0:
+            return ".tiff"
+        case 3:
+            return ".jpeg"
+        case 4:
+            return ".png"
+        default:
+            return ""
+        }
     }
 }
