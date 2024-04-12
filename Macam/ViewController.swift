@@ -8,7 +8,6 @@
 import Cocoa
 import AVFoundation
 import SwiftUI
-import AppKit
 
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
@@ -129,6 +128,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                             }
                         }
                     }
+                    self.imageView.isHidden = true
                 }
             }
         }
