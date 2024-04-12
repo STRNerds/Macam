@@ -108,6 +108,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         if let imageData = photo.fileDataRepresentation() {
             if let image = NSImage(data: imageData) {
                 imageView.image = image
+                imageView.isHidden = false
                 
                 let savePanel = NSSavePanel()
                 savePanel.allowedContentTypes = [UTType.png]
@@ -127,6 +128,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                             }
                         }
                     }
+                    self.imageView.isHidden = true
                 }
             }
         }
