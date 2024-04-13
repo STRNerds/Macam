@@ -111,7 +111,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                 imageView.isHidden = true
                 
                 let imageType = SettingsView().imageType
-                let saveURL = SettingsView().selectedFolder!.appendingPathComponent("capturedPhoto" + rawValueToString(imageType.rawValue))
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+                let imageName = dateFormatter.string(from: Date())
+                let saveURL = SettingsView().selectedFolder!.appendingPathComponent("\(imageName)\(rawValueToString(imageType.rawValue))")
                 
                 if let imageData = image.tiffRepresentation {
                     let bitmap = NSBitmapImageRep(data: imageData)

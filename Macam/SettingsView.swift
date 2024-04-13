@@ -23,6 +23,7 @@ struct SettingsView: View {
     }
     
     @State private var pickingFolder = false
+    @State private var showingResetAlert = false
     
     init() {
         if let url = UserDefaults.standard.url(forKey: "selectedFolder") {
@@ -62,6 +63,9 @@ struct SettingsView: View {
                 .frame(width: 300, height: 15, alignment: Alignment.bottom)
             }
             .padding()
+            .background(Color(red: 56/255, green: 48/255, blue: 61/255))
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(red: 76/255, green: 68/255, blue: 80/255), lineWidth: 1))
             
             Picker("Image Type", selection: $imageType) {
                 Text("PNG").tag(NSBitmapImageRep.FileType.png)
@@ -72,11 +76,23 @@ struct SettingsView: View {
                 UserDefaults.standard.set(imageType.rawValue, forKey: "imageType")
             }
             .frame(width: 150, height: 15, alignment: Alignment.bottom)
+            .padding()
             
             Button("Reset To Default") {
-                self.resetAll()
+                showingResetAlert = true
             }
+            .alert(isPresented: $showingResetAlert) {
+                Alert(title: Text("Reset To Default"),
+                      message: Text("Are you sure you want to reset to default?"),
+                      primaryButton: .destructive(Text("Reset")) {
+                    self.resetAll()
+                },
+                      secondaryButton: .cancel()
+                )
+            }
+            .padding()
         }
+        .padding()
     }
     
     func selectFolder() {
