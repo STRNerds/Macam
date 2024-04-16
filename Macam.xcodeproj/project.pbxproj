@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		05F3CECB2BC4662A0064B6B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F3CECA2BC4662A0064B6B5 /* ViewController.swift */; };
+		813CC6082BCDDBB100793266 /* CameraFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813CC6072BCDDBB100793266 /* CameraFeedView.swift */; };
+		813CC60A2BCDDBDC00793266 /* CameraFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 813CC6092BCDDBDC00793266 /* CameraFeedViewController.swift */; };
 		8148EA382BC979FE00F7A2B7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148EA372BC979FE00F7A2B7 /* SettingsView.swift */; };
 		816505422BC4821000F157C6 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816505412BC4821000F157C6 /* CaptureButton.swift */; };
 		819461C72BC3152A00371458 /* MacamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819461C62BC3152A00371458 /* MacamApp.swift */; };
@@ -15,10 +17,13 @@
 		819461CB2BC3152B00371458 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 819461CA2BC3152B00371458 /* Assets.xcassets */; };
 		819461CE2BC3152B00371458 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 819461CD2BC3152B00371458 /* Preview Assets.xcassets */; };
 		81C887682BC3313500A567C3 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C887672BC3313500A567C3 /* CameraView.swift */; };
+		81E57C1F2BCE179A004D8720 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81E57C1E2BCE179A004D8720 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		05F3CECA2BC4662A0064B6B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		813CC6072BCDDBB100793266 /* CameraFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedView.swift; sourceTree = "<group>"; };
+		813CC6092BCDDBDC00793266 /* CameraFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFeedViewController.swift; sourceTree = "<group>"; };
 		8148EA372BC979FE00F7A2B7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		816505412BC4821000F157C6 /* CaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = "<group>"; };
 		819461C32BC3152A00371458 /* Macam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macam.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,6 +33,7 @@
 		819461CD2BC3152B00371458 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		819461CF2BC3152B00371458 /* Macam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macam.entitlements; sourceTree = "<group>"; };
 		81C887672BC3313500A567C3 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		81E57C1E2BCE179A004D8720 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,9 @@
 				05F3CECA2BC4662A0064B6B5 /* ViewController.swift */,
 				816505412BC4821000F157C6 /* CaptureButton.swift */,
 				8148EA372BC979FE00F7A2B7 /* SettingsView.swift */,
+				813CC6072BCDDBB100793266 /* CameraFeedView.swift */,
+				813CC6092BCDDBDC00793266 /* CameraFeedViewController.swift */,
+				81E57C1E2BCE179A004D8720 /* Main.storyboard */,
 			);
 			path = Macam;
 			sourceTree = "<group>";
@@ -139,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81E57C1F2BCE179A004D8720 /* Main.storyboard in Resources */,
 				819461CE2BC3152B00371458 /* Preview Assets.xcassets in Resources */,
 				819461CB2BC3152B00371458 /* Assets.xcassets in Resources */,
 			);
@@ -156,7 +166,9 @@
 				819461C72BC3152A00371458 /* MacamApp.swift in Sources */,
 				8148EA382BC979FE00F7A2B7 /* SettingsView.swift in Sources */,
 				05F3CECB2BC4662A0064B6B5 /* ViewController.swift in Sources */,
+				813CC60A2BCDDBDC00793266 /* CameraFeedViewController.swift in Sources */,
 				81C887682BC3313500A567C3 /* CameraView.swift in Sources */,
+				813CC6082BCDDBB100793266 /* CameraFeedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +302,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
 				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -320,7 +332,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
 				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;

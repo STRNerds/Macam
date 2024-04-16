@@ -25,6 +25,13 @@ struct SettingsView: View {
     @State private var pickingFolder = false
     @State private var showingResetAlert = false
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    private var lightBorder = Color(red: 216/255, green: 214/255, blue: 217/255)
+    private var lightBackground = Color(red: 235/255, green: 233/255, blue: 236/255)
+    private var darkBorder = Color(red: 63/255, green: 58/255, blue: 63/255)
+    private var darkBackground = Color(red: 46/255, green: 41/255, blue: 46/255)
+    
     init() {
         if let url = UserDefaults.standard.url(forKey: "selectedFolder") {
             _selectedFolder = State(initialValue: url)
@@ -50,7 +57,11 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             HStack {
-                Picker("Save Folder", selection: $pickingFolder) {
+                Text("Save Folder")
+                
+                Spacer()
+                
+                Picker("", selection: $pickingFolder) {
                     Text(selectedFolder?.lastPathComponent ?? "NULL").tag(false)
                     Text("Choose Folder").tag(true)
                 }
@@ -60,23 +71,32 @@ struct SettingsView: View {
                         pickingFolder = false
                     }
                 }
-                .frame(width: 300, height: 15, alignment: Alignment.bottom)
+                .frame(width: 150, height: 15, alignment: Alignment.bottom)
             }
             .padding()
-            .background(Color(red: 56/255, green: 48/255, blue: 61/255))
+            .background(colorScheme == .light ? lightBackground : darkBackground)
             .clipShape(RoundedRectangle(cornerRadius: 5))
-            .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(red: 76/255, green: 68/255, blue: 80/255), lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
             
-            Picker("Image Type", selection: $imageType) {
-                Text("PNG").tag(NSBitmapImageRep.FileType.png)
-                Text("JPEG").tag(NSBitmapImageRep.FileType.jpeg)
-                Text("TIFF").tag(NSBitmapImageRep.FileType.tiff)
+            HStack {
+                Text("Image Type")
+                
+                Spacer()
+                
+                Picker("", selection: $imageType) {
+                    Text("PNG").tag(NSBitmapImageRep.FileType.png)
+                    Text("JPEG").tag(NSBitmapImageRep.FileType.jpeg)
+                    Text("TIFF").tag(NSBitmapImageRep.FileType.tiff)
+                }
+                .onChange(of: imageType) {
+                    UserDefaults.standard.set(imageType.rawValue, forKey: "imageType")
+                }
+                .frame(width: 150, height: 15, alignment: Alignment.bottom)
             }
-            .onChange(of: imageType) {
-                UserDefaults.standard.set(imageType.rawValue, forKey: "imageType")
-            }
-            .frame(width: 150, height: 15, alignment: Alignment.bottom)
             .padding()
+            .background(colorScheme == .light ? lightBackground : darkBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
             
             Button("Reset To Default") {
                 showingResetAlert = true
@@ -93,6 +113,7 @@ struct SettingsView: View {
             .padding()
         }
         .padding()
+        .background(colorScheme == .light ? Color(red: 238/255, green: 236/255, blue: 239/255) : Color(red: 43/255, green: 38/255, blue: 43/255))
     }
     
     func selectFolder() {
