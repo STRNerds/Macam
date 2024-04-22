@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+extension Notification.Name {
+    static let didChangeTrueMirror = Notification.Name("didChangeTrueMirror")
+}
+
 struct SettingsView: View {
     @State public var selectedFolder: URL? {
         didSet {
@@ -19,6 +23,12 @@ struct SettingsView: View {
     @State public var imageType: NSBitmapImageRep.FileType = .png {
         didSet {
             UserDefaults.standard.set(imageType.rawValue, forKey: "imageType")
+        }
+    }
+    
+    @State public var trueMirror: Bool = true {
+        didSet {
+            UserDefaults.standard.set(trueMirror, forKey: "trueMirror")
         }
     }
     
@@ -52,6 +62,8 @@ struct SettingsView: View {
         if let typeRawValue = UserDefaults.standard.object(forKey: "imageType") as? UInt, let type = NSBitmapImageRep.FileType(rawValue: typeRawValue) {
             _imageType = State(initialValue: type)
         }
+        
+        _trueMirror = State(initialValue: UserDefaults.standard.bool(forKey: "trueMirror"))
     }
     
     var body: some View {
@@ -92,6 +104,23 @@ struct SettingsView: View {
                     UserDefaults.standard.set(imageType.rawValue, forKey: "imageType")
                 }
                 .frame(width: 150, height: 15, alignment: Alignment.bottom)
+            }
+            .padding()
+            .background(colorScheme == .light ? lightBackground : darkBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
+            
+            HStack {
+                Text("True Mirror")
+                
+                Spacer()
+                
+                Toggle("", isOn: $trueMirror)
+                    .onChange(of: trueMirror) {
+                        UserDefaults.standard.set(trueMirror, forKey: "trueMirror")
+                        NotificationCenter.default.post(name: .didChangeTrueMirror, object: nil)
+                    }
+                    .toggleStyle(.switch)
             }
             .padding()
             .background(colorScheme == .light ? lightBackground : darkBackground)

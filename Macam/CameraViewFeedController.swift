@@ -27,6 +27,7 @@ class CameraFeedViewController: NSViewController, AVCapturePhotoCaptureDelegate 
         cameraView.layer?.cornerRadius = 10
         cameraView.layer?.masksToBounds = true
         cameraView.translatesAutoresizingMaskIntoConstraints = false
+        cameraView.widthAnchor.constraint(equalTo: cameraView.heightAnchor, multiplier: 16/9).isActive = true
         self.view.addSubview(cameraView)
         
         imageView = NSImageView()
@@ -77,13 +78,7 @@ class CameraFeedViewController: NSViewController, AVCapturePhotoCaptureDelegate 
     }
     
     static func newInstance() -> CameraFeedViewController {
-        let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let identifier = NSStoryboard.SceneIdentifier("CameraFeedViewController")
-          
-        guard let viewcontroller = storyboard.instantiateController(withIdentifier: identifier) as? CameraFeedViewController else {
-            fatalError("Unable to instantiate CameraFeedViewController in Main.storyboard")
-        }
-        return viewcontroller
+        return CameraFeedViewController()
     }
     
     func setupCamera() {

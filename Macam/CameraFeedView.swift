@@ -11,7 +11,9 @@ struct CameraFeedView: NSViewControllerRepresentable {
     typealias NSViewControllerType = CameraFeedViewController
     
     func makeNSViewController(context: Context) -> CameraFeedViewController {
-        return CameraFeedViewController.newInstance()
+        let controller = CameraFeedViewController.newInstance()
+        controller.view.frame.size = CGSize(width: 640, height: 360)
+        return controller
     }
     
     func updateNSViewController(_ nsViewController: CameraFeedViewController, context: Context) {

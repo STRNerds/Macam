@@ -9,10 +9,7 @@ import SwiftUI
 
 struct MenuBarView: View {
     var body: some View {
-        CameraFeedView()
-        Button("Hello") {
-            print("testing")
-        }
+        Text("Hello")
     }
 }
 

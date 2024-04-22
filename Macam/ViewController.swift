@@ -57,6 +57,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         ])
         
         setupCamera()
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeTrueMirror(_:)), name: .didChangeTrueMirror, object: nil)
     }
 
     override var representedObject: Any? {
@@ -96,6 +97,9 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
             videoPreviewLayer.videoGravity = .resizeAspectFill
             videoPreviewLayer.connection?.videoRotationAngle = 0
             videoPreviewLayer.frame = cameraView.bounds
+            if !UserDefaults.standard.bool(forKey: "trueMirror") {
+                videoPreviewLayer.transform = CATransform3DMakeScale(-1, 1, 1)
+            }
             cameraView.layer?.addSublayer(videoPreviewLayer)
             
             captureSession.startRunning()
@@ -154,5 +158,19 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         default:
             return ""
         }
+    }
+    
+    @objc func didChangeTrueMirror(_ notification: Notification) {
+        videoPreviewLayer.removeFromSuperlayer()
+            
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        videoPreviewLayer.videoGravity = .resizeAspectFill
+        
+        if !SettingsView().trueMirror {
+            videoPreviewLayer.setAffineTransform(CGAffineTransform(scaleX: -1, y: 1))
+        }
+        
+        cameraView.layer?.addSublayer(videoPreviewLayer)
+        videoPreviewLayer.frame = cameraView.bounds
     }
 }
