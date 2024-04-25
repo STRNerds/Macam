@@ -12,27 +12,29 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var window: NSWindow!
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    let popover = NSPopover()
-    var eventMonitor: EventMonitor?
-    var windowSizeTimer: Timer?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let button = self.statusItem.button {
-            button.image = NSImage(named: NSImage.addTemplateName)
-            button.action = #selector(AppDelegate.togglePopover(_:))
+            button.image = NSImage(systemSymbolName: "camera.fill", accessibilityDescription: nil)
         }
         
-        let controller = CameraFeedViewController.newInstance()
+        let menu = NSMenu()
+        
+        menu.addItem(NSMenuItem(title: "Take Picture", action: #selector(AppDelegate.menuBarCapturePhoto(_:)), keyEquivalent: ""))
+        menu.addItem(NSMenuItem.separator())
+        
+        let controller = ViewController(inMenuBar: true)
         controller.view.frame.size = CGSize(width: 320, height: 180)
         
-        self.popover.contentViewController = controller
-        self.popover.animates = false
+        let cameraFeedViewItem = NSMenuItem()
+        cameraFeedViewItem.view = controller.view
         
-        self.eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
-            if let strongSelf = self, strongSelf.popover.isShown {
-                strongSelf.closePopover(sender: event)
-            }
-        }
+        menu.addItem(cameraFeedViewItem)
+        
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Quit Macam", action: #selector(AppDelegate.quitApp(_:)), keyEquivalent: "q"))
+            
+        self.statusItem.menu = menu
         
         let contentView = ContentView()
                     .frame(minWidth: 480, maxWidth: .infinity, minHeight: 270, maxHeight: .infinity)
@@ -49,39 +51,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let mainMenu = NSApp.mainMenu
         let menuItem = mainMenu?.item(withTitle: "Macam")?.submenu?.item(withTitle: "Settings...")
         menuItem?.action = #selector(showPreferences)
-        
-        windowSizeTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-//            print("Current window size: \(self.window.frame.size)")
-        }
-    }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-        windowSizeTimer?.invalidate()
     }
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
-    }
-    
-    @objc func togglePopover(_ sender: NSStatusItem) {
-//        print("togglePopover")
-        if self.popover.isShown {
-            closePopover(sender: sender)
-        } else {
-            showPopover(sender: sender)
-        }
-    }
-    
-    func showPopover(sender: Any?) {
-        if let button = self.statusItem.button {
-            self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            self.eventMonitor?.start()
-        }
-    }
-
-    func closePopover(sender: Any?)  {
-        self.popover.performClose(sender)
-        self.eventMonitor?.stop()
     }
     
     @objc func showPreferences() {
@@ -92,19 +65,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         settingsWindow.title = "Settings"
         settingsWindow.makeKeyAndOrderFront(nil)
     }
+    
+    @objc func quitApp(_ sender: NSMenuItem) {
+        NSApplication.shared.terminate(sender)
+    }
+    
+    @objc func menuBarCapturePhoto(_ sender: NSMenuItem) {
+        NotificationCenter.default.post(name: .menuBarCapturePhoto, object: nil)
+    }
 }
-
-//@main
-//struct MacamApp: App {
-//    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-//    
-//    var body: some Scene {
-//        WindowGroup {
-//            ContentView()
-//        }
-//        Settings {
-//            SettingsView()
-//        }
-//        .windowResizability(.contentMinSize)
-//    }
-//}

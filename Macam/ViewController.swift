@@ -11,6 +11,7 @@ import SwiftUI
 
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
+    var inMenuBar: Bool
     var imageView: NSImageView!
     var cameraView: NSView!
     
@@ -18,6 +19,15 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     var stillImageOutput: AVCapturePhotoOutput!
     var captureDevice: AVCaptureDevice?
+    
+    init(inMenuBar: Bool) {
+        self.inMenuBar = inMenuBar
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +60,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         let buttonController = NSHostingController(rootView: captureButton)
         buttonController.view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(buttonController.view)
+        buttonController.view.isHidden = inMenuBar
         
         NSLayoutConstraint.activate([
             buttonController.view.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -58,6 +69,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         
         setupCamera()
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeTrueMirror(_:)), name: .didChangeTrueMirror, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(capturePhoto), name: .menuBarCapturePhoto, object: nil)
     }
 
     override var representedObject: Any? {
@@ -102,7 +114,7 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
             }
             cameraView.layer?.addSublayer(videoPreviewLayer)
             
-            captureSession.startRunning()
+            //captureSession.startRunning()
         } catch {
             print(error)
         }
@@ -110,7 +122,10 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let imageData = photo.fileDataRepresentation() {
-            if let image = NSImage(data: imageData) {
+            if var image = NSImage(data: imageData) {
+                if !SettingsView().trueMirror {
+                    image = NSImage(cgImage: image.cgImage(forProposedRect: nil, context: nil, hints: nil)!, size: image.size).mirroring()
+                }
                 imageView.image = image
                 imageView.isHidden = true
                 
@@ -134,10 +149,15 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
         }
     }
     
+    override func viewWillAppear() {
+        captureSession.startRunning()
+    }
+    
     override func viewWillDisappear() {
         super.viewWillDisappear()
         
         if (captureSession.isRunning) {
+            print("captureSession.stopRunning()")
             captureSession.stopRunning()
         }
     }

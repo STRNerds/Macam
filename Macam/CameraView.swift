@@ -11,7 +11,7 @@ struct CameraView: NSViewControllerRepresentable {
     typealias NSViewControllerType = ViewController
     
     func makeNSViewController(context: NSViewControllerRepresentableContext<CameraView>) -> ViewController {
-        return ViewController()
+        return ViewController(inMenuBar: false)
     }
     
     func updateNSViewController(_ nsViewController: ViewController, context: NSViewControllerRepresentableContext<CameraView>) {

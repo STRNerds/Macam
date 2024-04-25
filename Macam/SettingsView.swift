@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-extension Notification.Name {
-    static let didChangeTrueMirror = Notification.Name("didChangeTrueMirror")
-}
-
 struct SettingsView: View {
     @State public var selectedFolder: URL? {
         didSet {
@@ -183,6 +179,8 @@ struct SettingsView: View {
         UserDefaults.standard.set(macamDirectory, forKey: "selectedFolder")
         imageType = .png
         UserDefaults.standard.set(NSBitmapImageRep.FileType.png.rawValue, forKey: "imageType")
+        trueMirror = true
+        UserDefaults.standard.set(trueMirror, forKey: "trueMirror")
     }
 }
 
