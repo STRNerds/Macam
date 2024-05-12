@@ -16,6 +16,7 @@ struct CaptureButton: View {
                 .font(.largeTitle)
                 .padding()
         }
+        .keyboardShortcut(KeyboardShortcut(KeyEquivalent(" "), modifiers: []))
     }
 }
 

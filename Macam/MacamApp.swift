@@ -20,7 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let menu = NSMenu()
         
-        menu.addItem(NSMenuItem(title: "Take Picture", action: #selector(AppDelegate.menuBarCapturePhoto(_:)), keyEquivalent: ""))
+        let takePictureItem = NSMenuItem(title: "Take Picture", action: #selector(AppDelegate.menuBarCapturePhoto(_:)), keyEquivalent: " ")
+        takePictureItem.keyEquivalentModifierMask = []
+        menu.addItem(takePictureItem)
+        
         menu.addItem(NSMenuItem.separator())
         
         let controller = ViewController(inMenuBar: true)
