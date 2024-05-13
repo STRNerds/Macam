@@ -81,10 +81,24 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     @objc func capturePhoto() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
-                let settings = AVCapturePhotoSettings()
-                self.stillImageOutput.capturePhoto(with: settings, delegate: self)
+                DispatchQueue.main.async {
+                    let settings = AVCapturePhotoSettings()
+                    self.stillImageOutput.capturePhoto(with: settings, delegate: self)
+                    
+                    let flashView = NSView(frame: self.view.bounds)
+                    flashView.wantsLayer = true
+                    flashView.layer?.backgroundColor = NSColor.white.cgColor
+                    self.view.addSubview(flashView)
+                    
+                    NSAnimationContext.runAnimationGroup({ context in
+                        context.duration = 0.4
+                        flashView.animator().alphaValue = 0
+                    }, completionHandler: {
+                        flashView.removeFromSuperview()
+                    })
+                }
             } else {
-                debugPrint("Camera cannot accessed")
+                debugPrint("Camera cannot be accessed")
             }
         }
     }
@@ -113,8 +127,6 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                 videoPreviewLayer.transform = CATransform3DMakeScale(-1, 1, 1)
             }
             cameraView.layer?.addSublayer(videoPreviewLayer)
-            
-            //captureSession.startRunning()
         } catch {
             print(error)
         }
