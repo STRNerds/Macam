@@ -28,6 +28,12 @@ struct SettingsView: View {
         }
     }
     
+    @State public var saveToLibrary: Bool = true {
+        didSet {
+            UserDefaults.standard.set(saveToLibrary, forKey: "saveToLibrary")
+        }
+    }
+    
     @State private var pickingFolder = false
     @State private var showingResetAlert = false
     
@@ -60,10 +66,28 @@ struct SettingsView: View {
         }
         
         _trueMirror = State(initialValue: UserDefaults.standard.bool(forKey: "trueMirror"))
+        
+        _saveToLibrary = State(initialValue: UserDefaults.standard.bool(forKey: "saveToLibrary"))
     }
     
     var body: some View {
         VStack {
+            HStack {
+                Text("Save to Photos Library")
+                
+                Spacer()
+                
+                Toggle("", isOn: $saveToLibrary)
+                    .onChange(of: saveToLibrary) {
+                        UserDefaults.standard.set(saveToLibrary, forKey: "saveToLibrary")
+                    }
+                    .toggleStyle(.switch)
+            }
+            .padding()
+            .background(colorScheme == .light ? lightBackground : darkBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
+            
             HStack {
                 Text("Save Folder")
                 
@@ -85,6 +109,7 @@ struct SettingsView: View {
             .background(colorScheme == .light ? lightBackground : darkBackground)
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
+            .disabled(saveToLibrary)
             
             HStack {
                 Text("Image Type")
@@ -105,6 +130,7 @@ struct SettingsView: View {
             .background(colorScheme == .light ? lightBackground : darkBackground)
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
+            .disabled(saveToLibrary)
             
             HStack {
                 Text("True Mirror")
@@ -181,6 +207,8 @@ struct SettingsView: View {
         UserDefaults.standard.set(NSBitmapImageRep.FileType.png.rawValue, forKey: "imageType")
         trueMirror = true
         UserDefaults.standard.set(trueMirror, forKey: "trueMirror")
+        saveToLibrary = true
+        UserDefaults.standard.set(saveToLibrary, forKey: "saveToLibrary")
     }
 }
 

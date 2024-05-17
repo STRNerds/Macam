@@ -8,6 +8,7 @@
 import Cocoa
 import AVFoundation
 import SwiftUI
+import Photos
 
 class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
     
@@ -141,20 +142,33 @@ class ViewController: NSViewController, AVCapturePhotoCaptureDelegate {
                 imageView.image = image
                 imageView.isHidden = true
                 
-                let imageType = SettingsView().imageType
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
-                let imageName = dateFormatter.string(from: Date())
-                let saveURL = SettingsView().selectedFolder!.appendingPathComponent("\(imageName)\(rawValueToString(imageType.rawValue))")
-                
-                if let imageData = image.tiffRepresentation {
-                    let bitmap = NSBitmapImageRep(data: imageData)
-                    let image = bitmap?.representation(using: imageType, properties: [:])
-                    do {
-                        try image?.write(to: saveURL)
-                        print("Image saved to \(saveURL.path)")
-                    } catch {
-                        print("Failed to save image: \(error)")
+                if SettingsView().saveToLibrary {
+                    PHPhotoLibrary.shared().performChanges({
+                        let creationRequest = PHAssetCreationRequest.forAsset()
+                        creationRequest.addResource(with: .photo, data: imageData, options: nil)
+                    }, completionHandler: { success, error in
+                        if success {
+                            print("Image saved to Photos gallery")
+                        } else {
+                            print("Failed to save image: \(String(describing: error))")
+                        }
+                    })
+                } else {
+                    let imageType = SettingsView().imageType
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "yyyyMMdd_HHmmss"
+                    let imageName = dateFormatter.string(from: Date())
+                    let saveURL = SettingsView().selectedFolder!.appendingPathComponent("\(imageName)\(rawValueToString(imageType.rawValue))")
+                    
+                    if let imageData = image.tiffRepresentation {
+                        let bitmap = NSBitmapImageRep(data: imageData)
+                        let image = bitmap?.representation(using: imageType, properties: [:])
+                        do {
+                            try image?.write(to: saveURL)
+                            print("Image saved to \(saveURL.path)")
+                        } catch {
+                            print("Failed to save image: \(error)")
+                        }
                     }
                 }
             }
