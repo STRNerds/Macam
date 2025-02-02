@@ -13,5 +13,8 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "AppDelegate.applicationShouldHandleReopen(_:hasVisibleWindows:):MacamApp.swift">
+      </ContextState>
    </ContextStates>
 </VariablesViewState>

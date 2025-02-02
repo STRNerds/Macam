@@ -10,7 +10,7 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var window: NSWindow!
+    var windowController: NSWindowController?
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -39,17 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             
         self.statusItem.menu = menu
         
-        let contentView = ContentView()
-                    .frame(minWidth: 480, maxWidth: .infinity, minHeight: 270, maxHeight: .infinity)
-        
-        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 960, height: 540), styleMask: [.titled, .closable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
-        window.center()
-        window.setFrameAutosaveName("Main Window")
-        window.contentView = NSHostingView(rootView: contentView)
-        window.makeKeyAndOrderFront(nil)
-        window.title = "Macam"
-        window.aspectRatio = NSSize(width: 16, height: 9)
-        print(window.minSize)
+        createAndSetupWindow()
         
         let mainMenu = NSApp.mainMenu
         let menuItem = mainMenu?.item(withTitle: "Macam")?.submenu?.item(withTitle: "Settings...")
@@ -58,6 +48,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
+    }
+    
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            createAndSetupWindow()
+        }
+        
+        return true
+    }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+    
+    func createAndSetupWindow() {
+        let contentView = ContentView()
+                    .frame(minWidth: 480, maxWidth: .infinity, minHeight: 270, maxHeight: .infinity)
+        let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 960, height: 540), styleMask: [.titled, .closable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
+        window.center()
+        window.setFrameAutosaveName("Main Window")
+        window.contentView = NSHostingView(rootView: contentView)
+        window.makeKeyAndOrderFront(nil)
+        window.title = "Macam"
+        window.aspectRatio = NSSize(width: 16, height: 9)
+        
+        windowController = NSWindowController(window: window)
+        
+        windowController?.showWindow(nil)
     }
     
     @objc func showPreferences() {
