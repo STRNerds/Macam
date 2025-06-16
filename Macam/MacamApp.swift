@@ -9,9 +9,10 @@ import SwiftUI
 import Cocoa
 
 @main
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var windowController: NSWindowController?
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    var settingsWindowController: NSWindowController?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         if let button = self.statusItem.button {
@@ -19,6 +20,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let menu = NSMenu()
+        
+        let showAppItem = NSMenuItem(title: "Reveal in Dock", action: #selector(AppDelegate.showAppWindow(_:)), keyEquivalent: "\r")
+        showAppItem.keyEquivalentModifierMask = []
+        menu.addItem(showAppItem)
+        
+        menu.addItem(NSMenuItem.separator())
         
         let takePictureItem = NSMenuItem(title: "Take Picture", action: #selector(AppDelegate.menuBarCapturePhoto(_:)), keyEquivalent: " ")
         takePictureItem.keyEquivalentModifierMask = []
@@ -51,10 +58,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag {
+        NSApp.setActivationPolicy(.regular)
+        if self.windowController?.window == nil || self.windowController?.window?.isVisible == false {
             createAndSetupWindow()
+        } else {
+            self.windowController?.window?.makeKeyAndOrderFront(nil)
         }
-        
         return true
     }
     
@@ -63,12 +72,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func createAndSetupWindow() {
+        NSApp.setActivationPolicy(.regular)
         let contentView = ContentView()
                     .frame(minWidth: 480, maxWidth: .infinity, minHeight: 270, maxHeight: .infinity)
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 960, height: 540), styleMask: [.titled, .closable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
         window.center()
         window.setFrameAutosaveName("Main Window")
         window.contentView = NSHostingView(rootView: contentView)
+        window.delegate = self
         window.makeKeyAndOrderFront(nil)
         window.title = "Macam"
         window.aspectRatio = NSSize(width: 16, height: 9)
@@ -79,19 +90,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func showPreferences() {
-        let settingsViewController = NSHostingController(rootView: SettingsView())
-        settingsViewController.view.frame.size = CGSize(width: 480, height: 300)
+        NSApp.setActivationPolicy(.regular)
+        if settingsWindowController == nil || settingsWindowController?.window == nil {
+            let settingsViewController = NSHostingController(rootView: SettingsView())
+            settingsViewController.view.frame.size = CGSize(width: 480, height: 300)
+            
+            let newSettingsWindow = NSWindow(contentViewController: settingsViewController)
+            newSettingsWindow.title = "Settings"
+            newSettingsWindow.styleMask.formUnion([.closable])
+            newSettingsWindow.styleMask.subtract([.resizable, .miniaturizable])
+            newSettingsWindow.center()
+            
+            settingsWindowController = NSWindowController(window: newSettingsWindow)
+        }
         
-        let settingsWindow = NSWindow(contentViewController: settingsViewController)
-        settingsWindow.title = "Settings"
-        settingsWindow.makeKeyAndOrderFront(nil)
+        settingsWindowController?.showWindow(nil)
+        settingsWindowController?.window?.makeKeyAndOrderFront(nil)
     }
-    
+
     @objc func quitApp(_ sender: NSMenuItem) {
         NSApplication.shared.terminate(sender)
     }
     
     @objc func menuBarCapturePhoto(_ sender: NSMenuItem) {
         NotificationCenter.default.post(name: .menuBarCapturePhoto, object: nil)
+    }
+    
+    @objc func showAppWindow(_ sender: NSMenuItem) {
+        NSApp.setActivationPolicy(.regular)
+        if self.windowController?.window == nil || self.windowController?.window?.isVisible == false {
+            createAndSetupWindow()
+        } else {
+            self.windowController?.window?.makeKeyAndOrderFront(nil)
+        }
+    }
+    
+    func windowWillClose(_ notification: Notification) {
+        if let closedWindow = notification.object as? NSWindow, closedWindow == self.windowController?.window {
+            NSApp.setActivationPolicy(.accessory)	
+        }	
     }
 }
