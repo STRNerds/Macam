@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		05F3CECB2BC4662A0064B6B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F3CECA2BC4662A0064B6B5 /* ViewController.swift */; };
+		8131F0F12E00A77A00F88680 /* MacamIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 8131F0F02E00A77A00F88680 /* MacamIcon.icon */; };
 		813E76AA2BD5743B00AA1376 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 813E76A92BD5743B00AA1376 /* MainMenu.xib */; };
 		8148EA382BC979FE00F7A2B7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8148EA372BC979FE00F7A2B7 /* SettingsView.swift */; };
 		816505422BC4821000F157C6 /* CaptureButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816505412BC4821000F157C6 /* CaptureButton.swift */; };
 		819461C72BC3152A00371458 /* MacamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819461C62BC3152A00371458 /* MacamApp.swift */; };
 		819461C92BC3152A00371458 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819461C82BC3152A00371458 /* ContentView.swift */; };
-		819461CB2BC3152B00371458 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 819461CA2BC3152B00371458 /* Assets.xcassets */; };
 		819461CE2BC3152B00371458 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 819461CD2BC3152B00371458 /* Preview Assets.xcassets */; };
 		81C887682BC3313500A567C3 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C887672BC3313500A567C3 /* CameraView.swift */; };
 		81D2741E2BD999A100FA3B92 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D2741D2BD999A100FA3B92 /* Extensions.swift */; };
@@ -21,13 +21,13 @@
 
 /* Begin PBXFileReference section */
 		05F3CECA2BC4662A0064B6B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8131F0F02E00A77A00F88680 /* MacamIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = MacamIcon.icon; sourceTree = "<group>"; };
 		813E76A82BD5743B00AA1376 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		8148EA372BC979FE00F7A2B7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		816505412BC4821000F157C6 /* CaptureButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureButton.swift; sourceTree = "<group>"; };
 		819461C32BC3152A00371458 /* Macam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Macam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		819461C62BC3152A00371458 /* MacamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacamApp.swift; sourceTree = "<group>"; };
 		819461C82BC3152A00371458 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		819461CA2BC3152B00371458 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		819461CD2BC3152B00371458 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		819461CF2BC3152B00371458 /* Macam.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Macam.entitlements; sourceTree = "<group>"; };
 		81C887672BC3313500A567C3 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -48,6 +48,7 @@
 		819461BA2BC3152A00371458 = {
 			isa = PBXGroup;
 			children = (
+				8131F0F02E00A77A00F88680 /* MacamIcon.icon */,
 				819461C52BC3152A00371458 /* Macam */,
 				819461C42BC3152A00371458 /* Products */,
 			);
@@ -66,7 +67,6 @@
 			children = (
 				819461C62BC3152A00371458 /* MacamApp.swift */,
 				819461C82BC3152A00371458 /* ContentView.swift */,
-				819461CA2BC3152B00371458 /* Assets.xcassets */,
 				819461CF2BC3152B00371458 /* Macam.entitlements */,
 				819461CC2BC3152B00371458 /* Preview Content */,
 				81C887672BC3313500A567C3 /* CameraView.swift */,
@@ -146,7 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				819461CE2BC3152B00371458 /* Preview Assets.xcassets in Resources */,
-				819461CB2BC3152B00371458 /* Assets.xcassets in Resources */,
+				8131F0F12E00A77A00F88680 /* MacamIcon.icon in Resources */,
 				813E76AA2BD5743B00AA1376 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -303,13 +303,14 @@
 		819461D32BC3152B00371458 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = MacamIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Macam/Macam.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 188;
+				CURRENT_PROJECT_VERSION = 193;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
 				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -323,7 +324,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ethanyanxu.Macam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -335,13 +336,14 @@
 		819461D42BC3152B00371458 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = MacamIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = Macam/Macam.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 188;
+				CURRENT_PROJECT_VERSION = 193;
 				DEVELOPMENT_ASSET_PATHS = "\"Macam/Preview Content\"";
 				DEVELOPMENT_TEAM = J679C73527;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -355,7 +357,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = ethanyanxu.Macam;
 				PRODUCT_NAME = "$(TARGET_NAME)";
