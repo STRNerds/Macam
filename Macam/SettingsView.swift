@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct SettingsView: View {
     @State public var selectedFolder: URL? {
@@ -33,6 +34,9 @@ struct SettingsView: View {
             UserDefaults.standard.set(saveToLibrary, forKey: "saveToLibrary")
         }
     }
+    
+    @State private var availableCameras: [AVCaptureDevice] = []
+    @State private var selectedCameraID: String = ""
     
     @State private var pickingFolder = false
     @State private var showingResetAlert = false
@@ -68,6 +72,19 @@ struct SettingsView: View {
         _trueMirror = State(initialValue: UserDefaults.standard.bool(forKey: "trueMirror"))
         
         _saveToLibrary = State(initialValue: UserDefaults.standard.bool(forKey: "saveToLibrary"))
+        
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .external], mediaType: .video, position: .unspecified)
+        self._availableCameras = State(initialValue: discoverySession.devices)
+        
+        let storedCameraID = UserDefaults.standard.string(forKey: "selectedCameraID")
+        if let storedID = storedCameraID, discoverySession.devices.contains(where: { $0.uniqueID == storedID }) {
+            self._selectedCameraID = State(initialValue: storedID)
+        } else if let firstCamera = discoverySession.devices.first {
+            self._selectedCameraID = State(initialValue: firstCamera.uniqueID)
+            UserDefaults.standard.set(firstCamera.uniqueID, forKey: "selectedCameraID")
+        } else {
+            self._selectedCameraID = State(initialValue: "")
+        }
     }
     
     var body: some View {
@@ -149,6 +166,31 @@ struct SettingsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
             
+            HStack {
+                Text("Camera")
+                
+                Spacer()
+                
+                if availableCameras.isEmpty {
+                    Text("No cameras available")
+                        .foregroundColor(.gray)
+                } else {
+                    Picker("", selection: $selectedCameraID) {
+                        ForEach(availableCameras, id: \.uniqueID) { device in
+                            Text(device.localizedName).tag(device.uniqueID)
+                        }
+                    }
+                    .onChange(of: selectedCameraID) { newValue in
+                        UserDefaults.standard.set(newValue, forKey: "selectedCameraID")
+                    }
+                    .frame(width: 200, height: 15, alignment: Alignment.bottom)
+                }
+            }
+            .padding()
+            .background(colorScheme == .light ? lightBackground : darkBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .overlay(RoundedRectangle(cornerRadius: 5).stroke(colorScheme == .light ? lightBorder : darkBorder, lineWidth: 1))
+            
             Button("Reset To Default") {
                 showingResetAlert = true
             }
@@ -209,6 +251,15 @@ struct SettingsView: View {
         UserDefaults.standard.set(trueMirror, forKey: "trueMirror")
         saveToLibrary = true
         UserDefaults.standard.set(saveToLibrary, forKey: "saveToLibrary")
+        
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .externalUnknown], mediaType: .video, position: .unspecified)
+        if let firstCamera = discoverySession.devices.first {
+            selectedCameraID = firstCamera.uniqueID
+            UserDefaults.standard.set(firstCamera.uniqueID, forKey: "selectedCameraID")
+        } else {
+            selectedCameraID = ""
+            UserDefaults.standard.removeObject(forKey: "selectedCameraID")
+        }
     }
 }
 

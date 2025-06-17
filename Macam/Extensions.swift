@@ -27,4 +27,5 @@ extension NSImage {
 extension Notification.Name {
     static let didChangeTrueMirror = Notification.Name("didChangeTrueMirror")
     static let menuBarCapturePhoto = Notification.Name("menuBarCapturePhoto")
+    static let didChangeCamera = Notification.Name("didChangeCamera")
 }

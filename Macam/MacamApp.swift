@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         let menu = NSMenu()
         
-        let showAppItem = NSMenuItem(title: "Reveal in Dock", action: #selector(AppDelegate.showAppWindow(_:)), keyEquivalent: "\r")
+        let showAppItem = NSMenuItem(title: "Open Macam", action: #selector(AppDelegate.showAppWindow(_:)), keyEquivalent: "\r")
         showAppItem.keyEquivalentModifierMask = []
         menu.addItem(showAppItem)
         
@@ -123,6 +123,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         } else {
             self.windowController?.window?.makeKeyAndOrderFront(nil)
         }
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     func windowWillClose(_ notification: Notification) {
